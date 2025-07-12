@@ -1,61 +1,159 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 💡 IdeaBox
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+IdeaBox is a simple Laravel-based web application that allows users to submit ideas, vote on them, and comment. It’s designed for educational and practice purposes, focusing on Laravel fundamentals like Blade templates, Eloquent models, authentication, and relational database management.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   User registration and login
+-   Submit new ideas
+-   View ideas by status and category
+-   Vote for ideas (one vote per idea per user)
+-   Comment on ideas
+-   Admin panel to update idea statuses (e.g. In Progress, Rejected)
+-   Filter ideas by popularity or status
+-   Responsive UI using Blade and Tailwind CSS
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📦 Technologies Used
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   Laravel 11
+-   Laravel Breeze (authentication)
+-   Blade templating engine
+-   Eloquent ORM
+-   MySQL or SQLite
+-   Tailwind CSS (for styling)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🧱 Database Structure
 
-## Laravel Sponsors
+### `users`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+|      Field | Type      | Description           |
+| ---------: | --------- | --------------------- |
+|         id | BIGINT    | Primary key           |
+|       name | VARCHAR   | Full name of the user |
+|      email | VARCHAR   | Unique email          |
+|   password | VARCHAR   | Hashed password       |
+| created_at | TIMESTAMP | Creation timestamp    |
+| updated_at | TIMESTAMP | Last update timestamp |
 
-### Premium Partners
+### `ideas`
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+|       Field | Type      | Description                                |
+| ----------: | --------- | ------------------------------------------ |
+|          id | BIGINT    | Primary key                                |
+|       title | VARCHAR   | Short title of the idea                    |
+| description | TEXT      | Full description of the idea               |
+|    category | VARCHAR   | E.g., Tech, UI, Marketing                  |
+|      status | ENUM      | proposed, in_progress, completed, rejected |
+|     user_id | BIGINT    | Foreign key linked to users                |
+|  created_at | TIMESTAMP | Creation timestamp                         |
+|  updated_at | TIMESTAMP | Last update timestamp                      |
 
-## Contributing
+### `votes`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+|      Field | Type      | Description                 |
+| ---------: | --------- | --------------------------- |
+|         id | BIGINT    | Primary key                 |
+|    user_id | BIGINT    | Foreign key linked to users |
+|    idea_id | BIGINT    | Foreign key linked to ideas |
+| created_at | TIMESTAMP | Vote timestamp              |
+| updated_at | TIMESTAMP | Update timestamp            |
 
-## Code of Conduct
+### `comments`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+|      Field | Type      | Description                 |
+| ---------: | --------- | --------------------------- |
+|         id | BIGINT    | Primary key                 |
+|    idea_id | BIGINT    | Foreign key linked to ideas |
+|    user_id | BIGINT    | Foreign key linked to users |
+|       body | TEXT      | Content of the comment      |
+| created_at | TIMESTAMP | Creation timestamp          |
+| updated_at | TIMESTAMP | Update timestamp            |
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## ⚙️ Installation Guide
 
-## License
+1. **Clone the repository**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+git clone https://github.com/your-username/ideabox.git
+cd ideabox
+```
+
+2. **Install dependencies**
+
+```bash
+composer install
+npm install && npm run dev
+```
+
+3. **Configure the environment**
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Update `.env` database settings** and then run migrations:
+
+```bash
+php artisan migrate
+```
+
+5. **Seed optional demo data** (if available)
+
+```bash
+php artisan db:seed
+```
+
+6. **Run the local development server**
+
+```bash
+php artisan serve
+```
+
+Then go to [http://localhost:8000](http://localhost:8000)
+
+---
+
+## 🧑‍💻 User Roles
+
+-   **Regular User**: can submit ideas, vote, and comment.
+-   **Admin**: can view all ideas and update their status (`in_progress`, `completed`, `rejected`).
+
+---
+
+## 📅 Project Timeline (Gantt Overview)
+
+| Task                              | Duration | Start Day | End Day |
+| --------------------------------- | -------- | --------- | ------- |
+| Laravel project setup             | 1 day    | Day 1     | Day 1   |
+| Models and migrations             | 1 day    | Day 2     | Day 2   |
+| Auth with Laravel Breeze          | 1 day    | Day 3     | Day 3   |
+| CRUD for ideas                    | 2 days   | Day 4     | Day 5   |
+| Voting system                     | 1 day    | Day 6     | Day 6   |
+| Comment system                    | 1 day    | Day 7     | Day 7   |
+| Filtering and idea listing        | 1 day    | Day 8     | Day 8   |
+| Admin interface (status workflow) | 1 day    | Day 9     | Day 9   |
+| UI/UX polishing with Blade & CSS  | 2 days   | Day 10    | Day 11  |
+| Testing and deployment            | 1 day    | Day 12    | Day 12  |
+
+---
+
+## 📸 Screenshots
+
+_Add screenshots of idea submission, voting, admin panel, etc. once UI is ready._
+
+---
+
+## 📄 License
+
+This project is open-source and licensed under the [MIT License](LICENSE).
+
+---
